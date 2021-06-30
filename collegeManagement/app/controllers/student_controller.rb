@@ -27,15 +27,15 @@ def update
   response = @conn.put "/students/"+@student_id, student_params.to_json
   if response
     @student = response.body
-    render json: @student,status:200
+    render json: @student,status:201
   else
     render status: :unprocessable_entity
   end
 end
 def destroy
   response = @conn.delete "/students/"+@student_id
-  success="deleted"
-  render status: :ok
+  
+  render json:"deleted",status:200
 end
     
     

@@ -6,11 +6,8 @@ class DepartmentController < ApplicationController
   def index
     response = @conn.get "/departments"
     @departments = response.body
-    if (@departments)
-      render json: @departments, status:200
-    else
-      render status: :unprocessable_entity
-    end
+    render json: @departments, status:200
+    
   end
   def show
     response = @conn.get "/departments/"+@department_id
@@ -24,17 +21,13 @@ class DepartmentController < ApplicationController
   end
   def create
     response = @conn.post "/departments",department_params.to_json
-    if (response)
+   
       @department = response.body
       render json: @department,status:201
-    else
-      # failed="name can't be blank"
-      render status:422
-    end
 end
 def update
   response = @conn.put "/departments/"+@department_id, department_params.to_json
-  if success(response)
+  if (response)
     @department = response.body
     render json: @department,status:201
   else
@@ -44,8 +37,7 @@ def update
 end
 def destroy
   response = @conn.delete "/departments/"+@department_id
-  success="deleted"
-  render status: :ok
+  render json:'deleted',status:200
 end
 private    
 def department_params
